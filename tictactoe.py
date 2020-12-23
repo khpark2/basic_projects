@@ -31,7 +31,12 @@ def render(board):
 
 def get_move():
     user_move = input("Type in your move in the format x, y and press ENTER: ")
-    formatted_move = eval(user_move)
+    while True:
+        try:
+            formatted_move = eval(user_move)
+            break
+        except NameError:
+            user_move = input("You can only enter numbers. Please try again: ")
     return formatted_move
 
 
@@ -67,7 +72,7 @@ def play():
             print(get_winner(board))
             break
     if get_winner(board) == None:
-        print(get_winner(board))
+        print("It is a draw!")
 
 
 def get_winner(board):
