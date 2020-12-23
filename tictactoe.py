@@ -1,3 +1,6 @@
+import ai_ttt
+
+
 def new_board():
     board = []
     row_board = []
@@ -43,12 +46,13 @@ def get_move():
 def make_move(board, player):
 
     while True:
-        x, y = get_move()
-        if board[x][y] == None:
-            board[x][y] = player
+        x, y = ai_ttt.random_ai(board, player)
+        if board[y][x] == None:
+            board[y][x] = player
             break
         else:
             print("That is an invalid move!")
+
     return (board)
 
 
