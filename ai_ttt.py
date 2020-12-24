@@ -6,17 +6,17 @@ def random_ai(board, player):
     for y in range(3):
         for x in range(3):
             if board[y][x] == None:
-                indeces.append([x, y])
+                indeces.append([y, x])
     random_move = random.choice(indeces)
     return random_move[0], random_move[1]
 
 def finds_winning_moves_ai(board, player):
     indeces = []
     winning_move = None
-    for y in range(3): # find all open spots on board
+    for y in range(3):
         for x in range(3):
             if board[y][x] == None:
-                indeces.append([x, y])
+                indeces.append([y, x])
                 
     for i in indeces:
         board[i[1]][i[0]] = player
@@ -31,7 +31,6 @@ def finds_winning_moves_ai(board, player):
         winning_move = random.choice(indeces)
     
     return winning_move
-
 
 def finds_winning_and_losing_moves(board, player):
     indeces = []
@@ -79,3 +78,15 @@ def finds_winning_and_losing_moves(board, player):
         random_move = random.choice(indeces)
 
     return losing_move, winning_move, random_move
+    
+    
+def human_player():
+    user_move = input("Type in your move in the format x, y and press ENTER: ")
+    formatted_move = []
+    while True:
+        try:
+            formatted_move = eval(user_move)
+            break
+        except NameError:
+            user_move = input("You can only enter numbers. Please try again: ")
+    return formatted_move

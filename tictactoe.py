@@ -32,28 +32,35 @@ def render(board):
     print('  ' + ('-' * 6))
 
 
-def get_move():
-    user_move = input("Type in your move in the format x, y and press ENTER: ")
+def get_move(board, player, algorithm_ai):
+    if algorithm_ai == 'random_ai':
+        coords = ai_ttt.random_ai(board, player)
+    elif algorithm_ai == 'finds_winning_moves_ai':
+        coords = ai_ttt.finds_winning_moves_ai(board, player)
+    elif algorithm_ai == 'finds_winning_and_losing_moves':
+        coords = ai_ttt.finds_winning_and_losing_moves(board, player)
+    elif algorithm_ai == 'human_player':
+        coords = ai_ttt.human_player()
+        
     while True:
         try:
-            formatted_move = eval(user_move)
+            formatted_move = (coords[0], coords[1])
             break
         except NameError:
             user_move = input("You can only enter numbers. Please try again: ")
     return formatted_move
 
 
-def make_move(board, player):
-
+def make_move(board, player, algorithm_ai):
     while True:
-        x, y = ai_ttt.finds_winning_moves_ai(board, player)
+        y, x = get_move(board, player, algorithm_ai)
         if board[y][x] == None:
             board[y][x] = player
             break
         else:
             print("That is an invalid move!")
 
-    return (board)
+    return board
 
 
 def play():
@@ -62,13 +69,16 @@ def play():
     Player2 = 'X'
     player_turn = Player1
     turn_counter = 0
+    algorithm_ai = 'random_ai'
     while turn_counter < 9:
-        make_move(board, player_turn)
+        make_move(board, player_turn, algorithm_ai)
         render(board)
         if player_turn == Player1:
             player_turn = Player2
+            algorithm_ai = 'finds_winning_moves_ai' # 'O' corresponds to random_ai algorithm
         elif player_turn == Player2:
             player_turn = Player1
+            algorithm_ai = 'random_ai' # 'X' corresponds to finds_winning_moves_ai algorithm 
         turn_counter += 1
         if get_winner(board) == None:
             pass
