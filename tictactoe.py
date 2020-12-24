@@ -46,7 +46,7 @@ def get_move():
 def make_move(board, player):
 
     while True:
-        x, y = ai_ttt.random_ai(board, player)
+        x, y = ai_ttt.finds_winning_moves_ai(board, player)
         if board[y][x] == None:
             board[y][x] = player
             break

@@ -5,4 +5,4 @@ test_board = [
   ['X', None, None]
 ]
 
-print(random_ai(test_board, 'X'))
+print(ai_ttt.random_ai(test_board, 'X'))
