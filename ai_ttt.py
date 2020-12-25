@@ -1,5 +1,5 @@
 import random
-import tictactoe
+import tictactoe as ttt
 
 def random_ai(board, player):
     indeces = []
@@ -19,13 +19,13 @@ def finds_winning_moves_ai(board, player):
                 indeces.append([y, x])
                 
     for i in indeces:
-        board[i[1]][i[0]] = player
-        if tictactoe.get_winner(board) == player:
+        board[i[0]][i[1]] = player
+        if ttt.get_winner(board) == player:
             winning_move = [i[0], i[1]]
-            board[i[1]][i[0]] = None
+            board[i[0]][i[1]] = None
             break
-        elif tictactoe.get_winner(board) != player:
-            board[i[1]][i[0]] = None
+        elif ttt.get_winner(board) != player:
+            board[i[0]][i[1]] = None
             
     if winning_move == None:
         winning_move = random.choice(indeces)
@@ -50,20 +50,20 @@ def finds_winning_and_losing_moves(board, player):
 
     for i in indeces: # returns losing move
         board[i[1]][i[0]] = other_player
-        if tictactoe.get_winner(board) == other_player:
+        if ttt.get_winner(board) == other_player:
             losing_move = [i[0], i[1]]
             board[i[1]][i[0]] = None
             break
-        elif tictactoe.get_winner(board) != other_player:
+        elif ttt.get_winner(board) != other_player:
             board[i[1]][i[0]] = None
             
     for i in indeces: # returns winning move
         board[i[1]][i[0]] = player
-        if tictactoe.get_winner(board) == player:
+        if ttt.get_winner(board) == player:
             winning_move = [i[0], i[1]]
             board[i[1]][i[0]] = None
             break
-        elif tictactoe.get_winner(board) != player:
+        elif ttt.get_winner(board) != player:
             board[i[1]][i[0]] = None
     
     if losing_move != None and winning_move != None: # removes winning move and losing move from empty spot lists
@@ -90,3 +90,28 @@ def human_player():
         except NameError:
             user_move = input("You can only enter numbers. Please try again: ")
     return formatted_move
+
+
+def minimax(board, player='X'): # player will be X for simplicity
+    if ttt.get_winner(board) == 'X':
+        return 10
+    elif ttt.get_winner(board) == 'O':
+        return -10
+    elif ttt.get_winner(board) == None and ttt.empty_spots(board) == []:
+        return 0
+    
+    else: # if board state is not terminal
+        open_spots = ttt.empty_spots(board)
+        scores = []
+        moves = []
+        for move in open_spots:
+            board[move[0]][move[1]] = player
+            scores.append(minimax(board, player))
+            moves.append(move)
+            board[move[0]][move[1]] = None 
+        if player == 'X':
+            return max(scores)
+        elif player == 'O':
+            return min(scores)
+
+def minimax_ai()

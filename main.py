@@ -1,8 +1,4 @@
 import ai_ttt
-test_board = [
-  ['X', 'O', None],
-  ['O', 'O', None],
-  ['X', None, None]
-]
+import tictactoe as ttt
 
-print(ai_ttt.random_ai(test_board, 'X'))
+ttt.play()

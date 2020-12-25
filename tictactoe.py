@@ -89,7 +89,7 @@ def play():
         print("It is a draw!")
 
 
-def get_winner(board):
+def get_winner(board): # used only if game is over
     for row in board:
         if row[0] == row[1] and row[0] == row[2]:
             return str(row[0])
@@ -106,4 +106,14 @@ def get_winner(board):
         return str(board[0][0])
     elif board[0][2] == board[1][1] and board[0][2] == board[2][0]:
         return str(board[1][1])
+    else:
+        return None
+    
 
+def empty_spots(board):
+    open_spots = []
+    for y in board:
+        for x in y:
+            if board[y][x] == None: # checks that all spots are filled  
+                open_spots.append([y, x])
+    return open_spots
