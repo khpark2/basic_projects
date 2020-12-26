@@ -1,5 +1,6 @@
 import random
 import tictactoe as ttt
+import copy
 
 def random_ai(board, player):
     indeces = []
@@ -92,26 +93,67 @@ def human_player():
     return formatted_move
 
 
-def minimax(board, player='X'): # player will be X for simplicity
-    if ttt.get_winner(board) == 'X':
+def minimax_score(board, player): # player will be X for simplicity
+    original_player = player
+    empty_spots = []
+    other_player = None
+    if player == 'X':
+        other_player = 'O'
+    elif player == 'O':
+        other_player = 'X'
+    
+    for y in range(3): # find all open spots on board
+        for x in range(3):
+            if board[y][x] == None:
+                empty_spots.append([y, x])
+                
+    if ttt.get_winner(board) == player:
         return 10
-    elif ttt.get_winner(board) == 'O':
+    elif ttt.get_winner(board) == other_player:
         return -10
-    elif ttt.get_winner(board) == None and ttt.empty_spots(board) == []:
+    elif ttt.get_winner(board) == None and empty_spots == []:
         return 0
     
-    else: # if board state is not terminal
-        open_spots = ttt.empty_spots(board)
-        scores = []
-        moves = []
-        for move in open_spots:
-            board[move[0]][move[1]] = player
-            scores.append(minimax(board, player))
-            moves.append(move)
-            board[move[0]][move[1]] = None 
+    scores = []
+    moves = []
+    for y in range(3): # find all open spots on board
+        for x in range(3):
+            if board[y][x] == None:
+                moves.append([y, x])            
+    for move in moves: # if board state is not terminal
+        board[move[0]][move[1]] = player
         if player == 'X':
-            return max(scores)
+            player = 'O'
         elif player == 'O':
-            return min(scores)
+            player = 'X'
+        scores.append(minimax_score(board, player))
+        board[move[0]][move[1]] = None 
+    player = original_player
+    if player == 'X':
+        return max(scores)
+    elif player == 'O':
+        return min(scores)
 
-def minimax_ai()
+
+def minimax_ai(board, player):
+    best_move = None
+    best_score = None
+    moves = []
+    for y in range(3): # find all open spots on board
+        for x in range(3):
+            if board[y][x] == None:
+               moves.append([y, x])
+    for move in moves:
+        new_board = copy.deepcopy(board)
+        new_board[move[0]][move[1]] = player
+        if player == 'X':
+            player = 'O'
+        elif player == 'O':
+            player = 'X'
+        score = minimax_score(new_board, player)
+        new_board[move[0]][move[1]] = player
+        if best_score is None or score > best_score:
+            best_move = [move[1], move[0]]
+            best_score = score
+        
+    return best_move

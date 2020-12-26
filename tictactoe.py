@@ -41,6 +41,8 @@ def get_move(board, player, algorithm_ai):
         coords = ai_ttt.finds_winning_and_losing_moves(board, player)
     elif algorithm_ai == 'human_player':
         coords = ai_ttt.human_player()
+    elif algorithm_ai == 'minimax_ai':
+        coords = ai_ttt.minimax_ai(board, player)
         
     while True:
         try:
@@ -69,16 +71,17 @@ def play():
     Player2 = 'X'
     player_turn = Player1
     turn_counter = 0
-    algorithm_ai = 'random_ai'
+    algorithm_ai = 'human_player'
+    move = None
     while turn_counter < 9:
         make_move(board, player_turn, algorithm_ai)
         render(board)
         if player_turn == Player1:
             player_turn = Player2
-            algorithm_ai = 'finds_winning_moves_ai' # 'O' corresponds to random_ai algorithm
+            algorithm_ai = 'minimax_ai'
         elif player_turn == Player2:
             player_turn = Player1
-            algorithm_ai = 'random_ai' # 'X' corresponds to finds_winning_moves_ai algorithm 
+            algorithm_ai = 'human_player'
         turn_counter += 1
         if get_winner(board) == None:
             pass
@@ -92,13 +95,13 @@ def play():
 def get_winner(board): # used only if game is over
     for row in board:
         if row[0] == row[1] and row[0] == row[2]:
-            return str(row[0])
+            return row[0]
             break
         else:
             pass
     for column in range(3):
         if board[0][column] == board[1][column] and board[0][column] == board[2][column]:
-            return str(board[0][column])
+            return board[0][column]
             break
         else:
             pass
@@ -109,11 +112,3 @@ def get_winner(board): # used only if game is over
     else:
         return None
     
-
-def empty_spots(board):
-    open_spots = []
-    for y in board:
-        for x in y:
-            if board[y][x] == None: # checks that all spots are filled  
-                open_spots.append([y, x])
-    return open_spots
