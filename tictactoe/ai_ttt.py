@@ -129,9 +129,9 @@ def minimax_score(board, player): # player will be X for simplicity
         scores.append(minimax_score(board, player))
         board[move[0]][move[1]] = None 
     player = original_player
-    if player == 'X':
+    if player == original_player:
         return max(scores)
-    elif player == 'O':
+    else:
         return min(scores)
 
 
@@ -151,7 +151,7 @@ def minimax_ai(board, player):
         elif player == 'O':
             player = 'X'
         score = minimax_score(new_board, player)
-        new_board[move[0]][move[1]] = player
+        new_board[move[0]][move[1]] = None
         if best_score is None or score > best_score:
             best_move = [move[1], move[0]]
             best_score = score
