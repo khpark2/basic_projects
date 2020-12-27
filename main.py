@@ -13,5 +13,7 @@
 
 # # ttt.play()
 from snake import Game
-game = Game(10, 20)
+game = Game(10, 10)
+snake = game.snake
+
 game.render()
