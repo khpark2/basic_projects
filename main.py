@@ -12,8 +12,7 @@
 # print(ai_ttt.minimax_ai(board, 'O'))
 
 # # ttt.play()
-from snake import Game
-game = Game(10, 10)
-snake = game.snake
+import snake
+game = snake.Game(10, 10)
 
-game.render()
+game.play()
